@@ -1,0 +1,2 @@
+#template:untitled_product1_product_1
+<ul><li>na paradu po slovensky</li><li>formatujeme</li></ul>

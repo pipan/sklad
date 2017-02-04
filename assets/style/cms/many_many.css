@@ -1,0 +1,15 @@
+.many-many-body{
+	overflow: hidden;
+	position: relative;
+}
+	.many-many-remove{
+		position: relative;
+		top: 7px;
+		display: inline-block;
+		padding: 0px 0px 0px 10px;
+		opacity: 0.3;
+		cursor: pointer;
+	}
+	.over .many-many-remove{
+		opacity: 0.8;
+	}

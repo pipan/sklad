@@ -1,0 +1,282 @@
+html, body, span, table, caption, tbody, tfoot, thead, tr, th, td{
+	margin: 0px;
+	padding: 0px;
+	height: 100%;
+	font-family: Calibri;
+}
+div{
+	overflow: hidden;
+	margin: 0px;
+	padding: 0px;
+}
+a{
+	text-decoration: none;
+	color: #000000;
+}
+a:hover{
+	color: rgb(116, 222, 79);
+}
+a.solid:hover{
+	color: #000000;
+}
+a.button{
+	position: relative;
+	left: 30%;
+	padding: 8px 0px;
+	
+}
+
+/*
+* LAYOUT
+*/
+#main{
+	position: relative;
+	overflow: auto;
+	width: 100%;
+	min-height: 100%;
+}
+	#header{
+		position: absolute;
+		overflow: visible;
+		z-index: 3;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100px;
+		background-color: rgb(116, 222, 79);
+	}
+		#header-body{
+			position: relative;
+			width: 100%;
+			height: 58px;
+		}
+		#header-menu{
+			position: absolute;
+			overflow: hidden;
+			bottom: 0px;
+			left: 0px;
+			overflow: visible;
+			width: 100%;
+			font-size: 18px;
+			background-color: #f0f0f0;
+			border-top: solid 1px #b2b2b2;
+		}
+		
+	#workspace{
+		position: relative;
+		overflow: hidden;
+		height:100%;
+	}
+		#workspace-top{
+			position: relative;
+			/*top: 110px;
+			bottom: 80px;
+			width: 100%;*/
+			overflow: hidden;
+			margin: 110px 0px 80px 0px;
+		}
+			#message{
+				height: auto; 
+				margin: 0px 0px 10px 0px; 
+				background-color: #f0f0f0;
+			}
+				#message-center{
+					overflow: hidden;
+					width: 80%;
+					padding: 9px 16px;
+					margin: auto;
+					color: rgb(116, 222, 79);
+				}
+					#message-body{
+						
+					}
+					#message-cancel{
+						float: right;
+						cursor: pointer;
+					}
+			#body{
+				position: relative;
+				overflow: hidden;
+				width: 80%;
+				height: 100%;
+				margin: 0px auto 0px auto;
+			}
+				#content{
+					position: relative;
+					float: left;
+					width:70%;
+				}
+					#content-submenu{
+						position: relative;
+						float: right;
+						width: 30%;
+						margin-left: 4%;
+						max-height: 400px;
+						overflow: auto;
+					}
+				#body-menu{
+					position: absolute;
+					top: 0px;
+					bottom: 0px;
+					left: 72%;
+					margin: 0px;
+					overflow: hidden;
+					border-left: solid 1px #b2b2b2;
+					border-top: none;
+				/*
+					position: relative;
+					overflow: hidden;
+					height: inherit;
+					margin: 0px 0px 0px 2%;
+					float: left;
+					border-left: solid 1px #b2b2b2;
+					border-top: none;
+					*/
+				}
+	#footer{
+		position: relative;
+		margin-top: -61px;
+		height: 60px;
+		width: 100%;
+		/*background-color: rgb(190,210,235);*/
+		background-color: rgb(209, 253, 193);
+		text-align: center;
+		font-size: 12px;
+		border-top: solid 1px #f0f0f0;
+	}
+	
+/*
+* TAGS
+*/
+h2{
+	padding: 0px 5px;
+}
+label{
+	font-size: 18px;
+	padding: 2px 0px;
+	width: 30%;
+	display: block;
+	float: left;
+}
+input, textarea, select{
+	box-sizing : border-box;
+	font-size: 16px;
+	padding: 3px 4px;
+	margin: 0px;
+	border: solid #b2b2b2 1px;
+	width: 70%;
+	text-align: left;
+	outline: 0;
+	color: #8c8c8c;
+}
+textarea{
+	height: 90px;
+}
+input:focus, textarea:focus, select:focus{
+	border: solid rgb(116, 222, 79) 1px;
+	color: #000;
+}
+input[type="checkbox"]{
+	width: auto;
+}
+input[type="button"], input[type="submit"]{
+	position: relative;
+	left: 30%;
+	width: auto;
+	text-align: center;
+	padding: 8px 25px;
+	margin: 0px;
+	background-color: rgb(116, 222, 79);
+	border: solid rgb(116, 222, 79) 1px;
+	color: #fff;
+	cursor: pointer;
+}
+input[type="button"]:hover, input[type="submit"]:hover{
+	color: #000;
+}
+table{
+	width: 100%;
+}
+tr.hover{
+	background-color: #ffffff;
+	transition: background-color 200ms linear;
+}
+tr.hover:hover{
+	background-color: #f0f0f0;
+}
+td{
+	padding: 5px 5px;
+}
+td.center{
+	text-align: center;
+	vertical-align: middle;
+}
+td.right{
+	text-align: right;
+	vertical-align: middle;
+}
+
+.pop-up input, .pop-up select, .pop-up textarea{
+	width: 100%;
+}
+/*
+* ELEMENTS
+*/
+#login{
+	padding: 9px 16px;
+	float: right;
+}
+#logo{
+	height: 50px;
+	padding: 5px 0px 0px 10px;
+}
+#filter-logo{
+	position: relative;
+	float: right;
+	cursor: pointer;
+	top: 25px;
+}
+#filter{
+	padding: 0px 5px 16px 5px;
+	margin: 0px 0px 10px 0px; 
+}
+.action-image{
+	display: block;
+	float: left;
+	width: 20px;
+	padding: 4px;
+}
+.action-image-small{
+	display: block;
+	float: left;
+	width: 15px;
+	padding: 2px;
+}
+td .action-image{
+	float: right;
+}
+td .action-image-small{
+	float: right;
+}
+.img-16{
+	position: relative;
+	width: 16px;
+}
+.form-line{
+	overflow: hidden;
+	clear: both;
+	padding: 8px 0px;
+	text-align: left;
+}
+.table-header > td{
+	font-size: 18px;
+	font-weight: bold;
+	border-bottom: solid 1px #b2b2b2;
+} 
+
+td.red{
+	color: #e42133;
+}
+td.green{
+	color: #33e421
+}

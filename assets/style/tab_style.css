@@ -1,0 +1,38 @@
+/*
+* EDITABLE FILE FOR TAB VISUALS
+* DO NOT RENAME CLASSES OR IDs
+*/
+@CHARSET "UTF-8";
+
+.tab-pane{
+	position: relative;
+	overflow: hidden;
+	width: 100%;
+}
+	.tab-menu{
+		position: relative;
+		overflow: hidden;
+		background-color: #c8c8c8;
+		border: solid 1px #c8c8c8;
+		border-bottom: none;
+	}
+		.tab-menu-item{
+			float: left;
+			padding: 4px 10px;
+			background-color: #c8c8c8;
+			cursor: pointer;
+		}
+		.tab-menu-item-over{
+			background-color: #ffffff;
+		}
+		.tab-menu-item-active{
+			background-color: #ffffff;
+		}
+	.tab-body{
+		position: relative;
+		width: 100%;
+		display: none;
+	}
+		.tab-body-active{
+			display: block;
+		}

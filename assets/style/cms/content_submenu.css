@@ -1,0 +1,28 @@
+.content-submenu-item{
+	padding: 5px 3px;
+	background-color: #fff;
+	border-bottom: solid 1px #8c8c8c;
+	color: #8c8c8c;
+	cursor: pointer;
+}
+.content-submenu-item.added{
+	display: none;
+}
+.content-submenu-item:hover{
+	background-color: #f0f0f0;
+	color: #444444;
+}
+
+
+.cancel{
+	float: right;
+	width: 24px;
+	height: 24px;
+	margin: 6px;
+	background-image: url(../../images/delete.png);
+	background-size: cover;
+	cursor: pointer;
+}
+	.cancel img{
+		width: 100%;
+	}

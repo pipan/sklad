@@ -1,0 +1,23 @@
+#pages{
+	padding: 0px 40px;
+	float: right;
+	clear: both;
+}
+
+.page-number{
+	float: left;
+}
+	.page-number a{
+		text-decoration: none;
+		display: block;
+		padding: 3px 8px;
+		color: rgb(116, 222, 79);
+		border: solid 1px transparent; 
+	}
+	.page-number a.exception{
+		color: #000;
+	}
+	.page-number a:hover{
+		border: solid 1px rgb(116, 222, 79);
+	}
+	

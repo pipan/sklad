@@ -1,0 +1,29 @@
+.form-item-title{
+	padding: 6px 0px 0px 0px;
+	font-size: 18px;
+}
+.form-item-actions{
+	text-align: left;
+	width: 70%;
+}
+.form-item:hover{
+	background-color: #f0f0f0
+}
+
+#form-body input{
+	box-sizing : border-box;
+	padding: 4px 8px;
+	margin: 4px 14px 4px 0px;
+	width: 66px;
+	font-size: 16px;
+	outline: 0;
+	text-align: left;
+	background-color: transparent;
+}
+
+tr.accepted{
+	background-color: rgb(209, 253, 193);
+}
+tr.unaccepted{
+	background-color: rgb(253, 209, 193);
+}
