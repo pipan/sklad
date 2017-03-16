@@ -3,8 +3,8 @@
 id:43
 order_id:14
 inventory_id:93
-order_amount:11
-order_amount_orig:11ks
+order_amount:13
+order_amount_orig:13ks
 order_amount_info:
 inventory_name:Ceruzky
 min_amount:3

@@ -3,19 +3,18 @@
 	<head>
 		<link type = "text/css" rel = "stylesheet" href = "<?php echo assets_url()."style/view/style.css";?>" />
 		<link type = "text/css" rel = "stylesheet" href = "<?php echo assets_url()."style/view/style800.css";?>" media="all and (max-width: 800px)" />
-		<?php 
+		<?php
 		if (isset($style)){
 			foreach ($style as $s){
 				?>
 				<link type="text/css" rel="stylesheet" href="<?php echo assets_url()."style/".$s.".css";?>" />
 				<?php
-			}	
+			}
 		}
 		?>
 		<!-- <script src="//code.jquery.com/jquery-1.11.0.min.js"></script> -->
 		<script type="text/javascript" src="<?php echo assets_url()."jscript/jquery-1.11.0.min.js";?>"></script>
-		<script type="text/javascript" src="<?php echo assets_url()."jscript/view/config.js";?>"></script>
-		<?php 
+		<?php
 		if (isset($jscript)){
 			foreach ($jscript as $j){
 				?>
@@ -45,19 +44,19 @@
 					<?php echo $header;?>
 				</div>
 			</div>
-			
+
 			<div id="workspace">
 				<div id="workspace-top">
 					<?php
 					if (isset($message)){
-					?>
-					<div id="message">
-						<div id="message-center">
-							<div id="message-cancel"><img class="action-image-small" src="<?php echo assets_url()."images/delete.png"?>" onClick="hide('message');"></div>
-							<div id="message-body"><?php echo $message;?></div>
-						</div>
-					</div>
-					<?php
+                                            ?>
+                                            <div id="message">
+                                                <div id="message-center">
+                                                    <div id="message-cancel"><img class="action-image-small" src="<?php echo assets_url()."images/delete.png"?>" onClick="hide('message');"></div>
+                                                    <div id="message-body"><?php echo $message;?></div>
+                                                </div>
+                                            </div>
+                                            <?php
 					}
 					echo $body;
 					?>
@@ -80,7 +79,7 @@
 							<div id="login-response-name" class="form-line"></div>
 						</form>
 					</div>
-				</div>	
+				</div>
 			</div>
 		</div>
 	</body>
