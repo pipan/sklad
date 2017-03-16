@@ -42,10 +42,4 @@
 		</div>
 	</div>
 </div>
-<?php 
-if (isset($storage_change) && $storage_change !== false){
-	?>
-	<div id="storage_change"><?php echo "Veci zmenil(a) ".$storage_change['admin_name']." ".$storage_change['admin_surname'];?></div>
-	<?php
-}
-?>
+<div id="storage_change" class="hide" style="display: none;"></div>

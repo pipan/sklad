@@ -29,11 +29,6 @@ class View extends Part{
 		
 		$this->data['inventories'] = $this->inventory_model->get();
 		
-		$this->data['storage_change'] = $this->session->userdata('storage_change');
-		if ($this->data['storage_change'] !== false){
-			$this->session->unset_userdata('storage_change');
-		}
-		
 		$this->data['warnings'] = $this->inventory_model->get_warnings();
 		$this->data['warnings_count'] = $this->inventory_model->count_warnings();
 		$this->data['header_categories'] = $this->inventory_category_model->get();
@@ -51,22 +46,22 @@ class View extends Part{
 		$user = $this->session->userdata("login");
 		$datetime = date("Y-n-d-H-i-s");
 		$notify = array();
-		if ($this->input->post("item_id") != false && is_array($this->input->post("item_id"))){
-			foreach ($this->input->post("item_id") as $key => $val){
-				$amount = $this->input->post("amount")[$key];
+		if ($this->input->post("items") != false && is_array($this->input->post("items"))){
+			foreach ($this->input->post("items") as $val){
+				$amount = $val['amount'];
 				if ($amount != 0)
 				{
 					$table_data = array(
-							'inventory_id' => $val,
+							'inventory_id' => $val['item_id'],
 							'user_id' => $user['id'],
 							'log_amount' => $amount,
 							'log_date' => $datetime,
 					);
 					$this->inventory_log_model->save($table_data);
 					
-					$item = $this->inventory_model->get(array(), $val);
+					$item = $this->inventory_model->get(array(), $val['item_id']);
 					
-					$this->inventory_model->set_amount($item['amount'] + $amount, $val);
+					$this->inventory_model->set_amount($item['amount'] + $amount, $val['item_id']);
 					
 					//if one of the items is lower then min
 					if ($item['amount'] + $amount < $item['min_amount']){
@@ -133,9 +128,11 @@ class View extends Part{
 				}
 			}
 		}
-		$this->session->set_userdata('storage_change', $user);
 		$this->session->unset_userdata("login");
-		redirect("");
+                
+                $this->data['inventories'] = $this->inventory_model->get();
+		
+                echo $this->load->view("view/search", $this->data, true);
 	}
 	
 	public function search(){
