@@ -1,12 +1,6 @@
-
-# BEGIN WordPress
-<IfModule mod_rewrite.c>
 RewriteEngine On
-RewriteBase /git/sklad/
-RewriteRule ^index\.php$ - [L]
+
+RewriteCond $1 !^(index\.php|resources|robots\.txt)
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . /git/sklad/index.php [L]
-</IfModule>
-
-# END WordPress
+RewriteRule ^(.*)$ index.php/$1 [L,QSA]

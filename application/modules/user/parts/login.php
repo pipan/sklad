@@ -53,7 +53,7 @@ class Login extends Part {
                 'link' => base_url() . "cms/logout",
                 'text' => "odhlásenie",
             );
-            
+
             $this->data['session'] = $this->session->all_userdata();
 
             //form
@@ -88,12 +88,11 @@ class Login extends Part {
             //form
             $layout_data['title'] = "Trans Sklad - login";
             $layout_data['header'] = $this->load->view("cms/header", $this->data, true);
-            ;
+
             $layout_data['body'] = $this->load->view("login/body", $this->data, true);
             $layout_data['menu'] = $this->load->view("cms/menu", $this->data, true);
             $layout_data['submenu'] = "";
             $layout_data['footer'] = $this->load->view("cms/footer", $this->data, true);
-            ;
 
             //
             $this->model->load->view($this->layout, $layout_data);
