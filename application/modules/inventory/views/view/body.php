@@ -15,15 +15,15 @@ if (isset($inventories)){
 }
 ?>
 </div>
-<form id="items-form" action="<?php echo base_url()."inventory/view/edit"?>" method="post">
+<form id="items-form">
 	<div id="download-body" class="body">
 		<div class="title">Beriem si zo skladu</div>
 		<div id="download-items"></div>
 		<div class="button">
-			<input type="button" value="potvrdiť" onClick="$('#login-pop-up').show();$('#uid').focus();">
+                    <input type="button" value="potvrdiť" onClick="$('#login-pop-up').show();$('#uid').focus();">
 		</div>
 		<div class="button">
-			<input type="button" value="späť" onClick="$('#notifications .notification.active').trigger('click');">
+                    <input type="button" value="späť" onClick="$('#notifications .notification.active').trigger('click');">
 		</div>
 	</div>
 </form>

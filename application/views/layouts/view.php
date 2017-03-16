@@ -50,14 +50,14 @@
 				<div id="workspace-top">
 					<?php
 					if (isset($message)){
-					?>
-					<div id="message">
-						<div id="message-center">
-							<div id="message-cancel"><img class="action-image-small" src="<?php echo assets_url()."images/delete.png"?>" onClick="hide('message');"></div>
-							<div id="message-body"><?php echo $message;?></div>
-						</div>
-					</div>
-					<?php
+                                            ?>
+                                            <div id="message">
+                                                <div id="message-center">
+                                                    <div id="message-cancel"><img class="action-image-small" src="<?php echo assets_url()."images/delete.png"?>" onClick="hide('message');"></div>
+                                                    <div id="message-body"><?php echo $message;?></div>
+                                                </div>
+                                            </div>
+                                            <?php
 					}
 					echo $body;
 					?>

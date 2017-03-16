@@ -205,8 +205,10 @@ class CMS extends Part{
 
                 if ($this->form_validation->run() !== false){
 
-                    $data = array(
-                            'data' => $this->order_model->get(array(), $id),
+                    $table_data_order = $this->order_model->get(array(), $id);
+                    
+                    $undo_data = array(
+                            'data' => $table_data_order,
                     );
 
                     $table_data = $this->_get_td_accept();
@@ -241,15 +243,77 @@ class CMS extends Part{
                         
                         $this->inventory_in_order_model->save($table_data, $i['id']);
                     }
+                    
+                    //history backup
+                    copy("orders/".$table_data_order['order_number'].".xlsx", "orders/history.xlsx");
+                    
+                    $this->phpexcel = PHPExcel_IOFactory::load("config/template.xlsx");
+                    $this->phpexcel->getProperties()->setCreator("Trans Sklad")
+                            ->setLastModifiedBy("Trans Sklad")
+                            ->setTitle("Translata Objednavka")
+                            ->setSubject("Translata Objednavka")
+                            ->setDescription("Objednavka pre firmu Translata");
+
+                    //load excel config
+                    $this->phpexcel->setActiveSheetIndex(1);
+                    $excel_config['title'] = $this->phpexcel->getActiveSheet()->getCell('B1')->getValue();
+                    $excel_config['first_line'] = $this->phpexcel->getActiveSheet()->getCell('B2')->getValue();
+                    $excel_config['start'] = $this->phpexcel->getActiveSheet()->getCell('B3')->getValue();
+                    $excel_config['end'] = $this->phpexcel->getActiveSheet()->getCell('B4')->getValue();
+                    $iter = $excel_config['start'];
+                    $i = 5;
+                    while (true){
+                            $excel_config['table'][$iter] = $this->phpexcel->getActiveSheet()->getCell('B'.$i)->getValue();
+                            if ($iter == $excel_config['end']){
+                                    break;
+                            }
+                            $iter = chr(ord($iter) + 1);
+                            $i++;
+                    }
+
+                    $this->phpexcel->setActiveSheetIndex(0);
+                    
+                    //fill order name
+                    $this->phpexcel->getActiveSheet()->setCellValue($excel_config['title'], $table_data_order['order_number']);
+                    //fill table => order data
+                    $order_data = $this->inventory_in_order_model->get_excel_data($id, $table_data_order['supplier_id']);
+                    $i = $excel_config['first_line'];
+                    $prev = null;
+                    $settings = $this->options_model->get_indexed(array());
+                    foreach ($order_data as $data){
+                        if ($prev == null || $prev['category_id'] != $data['category_id']){
+                            $i++;
+                            $this->phpexcel->getActiveSheet()->setCellValue('A'.$i, $data['category_name']);
+                            //bold
+                            $this->phpexcel->getActiveSheet()->getStyle("A".$i)->getFont()->setBold(true);
+                            //background color
+                            $this->phpexcel->getActiveSheet()->getStyle('A'.$i.':H'.$i)->getFill()->applyFromArray(array(
+                                'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                                'startcolor' => array(
+                                     'rgb' => setting_value($settings, "category_color_".$data['category_id'])
+                                )
+                            ));
+                            $i++;
+                        }
+                        foreach ($excel_config['table'] as $key => $value){
+                            $this->phpexcel->getActiveSheet()->setCellValue($key.$i, $data[$value]);
+                        }
+                        $i++;
+                        $prev = $data;
+                    }
+                    
+                    // Save Excel 2007 file
+                    $objWriter = PHPExcel_IOFactory::createWriter($this->phpexcel, 'Excel2007');
+                    $objWriter->save("orders/".$table_data_order['order_number'].".xlsx");
 
                     if ($this->input->post("order_accepted") !== false){
                         $this->history->set("order-log", $log_ids, true);
                         
-                        $this->set_undo('order', 'accepted', $data);
+                        $this->set_undo('order', 'accepted', $undo_data);
                         $this->set_message('Objednávka prijatá, na základe objednávky boli upravená aj množstvá <a href="'.base_url().'cms/order/undo">undo</a>');
                     }
                     else{
-                        $this->set_undo('order', 'edit', $data);
+                        $this->set_undo('order', 'edit', $undo_data);
                         $this->set_message('Objednávka upravená <a href="'.base_url().'cms/order/undo">undo</a>');
                     }
                     
@@ -369,6 +433,8 @@ class CMS extends Part{
 							}
 							
 							$this->set_message('[Undo action] Objednávka zmenená späť');
+                                                        
+                                                        copy("orders/history.xlsx", "orders/".$undo['data']['order_number'].".xlsx");
 							break;
                                                 case 'accepted':
                                                         $history_data = $this->history->get("order-log");
@@ -390,6 +456,8 @@ class CMS extends Part{
                                                                     $log = $this->inventory_in_order_model->save($table_data, $data['id']);
 								}
 							}
+                                                        
+                                                        copy("orders/history.xlsx", "orders/".$undo['data']['order_number'].".xlsx");
 							
 							$this->order_model->save($undo['data'], $undo['data']['id']);
 							$this->set_message('[Undo action] Objednávka zmenená späť');

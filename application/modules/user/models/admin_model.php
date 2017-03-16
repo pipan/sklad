@@ -1,12 +1,12 @@
 <?php
 class Admin_model extends MY_Model{
-
+	
 	public $select_login;
-
+	
 	public function __construct(){
 		parent::__construct('admin');
 	}
-
+	
 	public static function get_select(){
 		return array('admin.uid', 'admin.admin_nickname', 'admin.email', 'admin.admin_name', 'admin.admin_surname', 'admin.privelage_id', 'admin.email_notification', 'admin.active');
 	}
@@ -23,7 +23,7 @@ class Admin_model extends MY_Model{
 				),
 		);
 	}
-
+	
 	public function get_dummy(){
 		return array(
 				'id' => 0,
@@ -37,13 +37,13 @@ class Admin_model extends MY_Model{
 				'active' => 0,
 		);
 	}
-
+	
 	public function get_filter($filter){
 		if (!isset($filter['remove']) || $filter['remove'] == null || $filter['remove'] != 1){
 			$this->db->where('active', 1);
 		}
 	}
-
+	
 	public function get_uid(){
 		$user = 1;
 		while ($user != null){
@@ -52,7 +52,7 @@ class Admin_model extends MY_Model{
 		}
 		return $uid;
 	}
-
+	
 	public function get_login($nickname = ""){
 		$this->db->select($this->get_select_id());
 		$query = $this->db->get_where($this->table, array('admin_nickname =' => $nickname));
@@ -62,7 +62,7 @@ class Admin_model extends MY_Model{
 		}
 		return null;
 	}
-
+		
 	public function get_login_by_uid($uid){
 		$this->db->select($this->get_select_id());
 		$query = $this->db->get_where($this->table, array('uid =' => $uid));
@@ -72,39 +72,39 @@ class Admin_model extends MY_Model{
 		}
 		return null;
 	}
-
+	
 	public function get_login_by_id($id){
 		$this->db->select($this->get_select_id());
 		$query = $this->db->get_where($this->table, array('id =' => $id));
 		return $query->row_array();
 	}
-
+	
 	public function get_listf($join = array(), $limit_from, $limit, $filter){
 		$this->db->order_by("admin_name ASC, admin_surname ASC");
 		return parent::get_listf($join, $limit_from, $limit, $filter);
 	}
-
+	
 	public function get_notify(){
 		$this->db->select($this->get_select());
 		$query = $this->db->get_where($this->table, array('email_notification =' => 1));
 		return $query->result_array();
 	}
-
+	
 	public function remove($id){
 		$this->db->where('id', $id);
 		$this->db->update($this->table, array('active' => 0));
 	}
-
+	
 	public function restore($id){
 		$this->db->where('id', $id);
 		$this->db->update($this->table, array('active' => 1));
 	}
-
+	
 	public function force_remove($id){
 		$this->db->where('id', $id);
 		$this->db->delete($this->table);
 	}
-
+	
 	public function _create_table(){
 		$this->db->query("CREATE TABLE IF NOT EXISTS admin(
 				id int(9) NOT NULL AUTO_INCREMENT,

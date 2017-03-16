@@ -1,3 +1,5 @@
+var inv;
+
 $(document).ready(function(){
 	inv = new Inventory();
 
@@ -32,19 +34,6 @@ $(document).ready(function(){
 	$(document).on('click', '#storage_change', function(event){
 		$(this).hide();
 	});
-
-	//hide storage change
-	setTimeout(function(){
-		if ($("#storage_change")){
-			$("#storage_change").addClass("hide");
-		}
-	}, 4000);
-	//kill storage change
-	setTimeout(function(){
-		if ($("#storage_change")){
-			$("#storage_change").hide();
-		}
-	}, 5000);
 });
 
 $(document).on('click', 'input', function(e){
@@ -52,6 +41,7 @@ $(document).on('click', 'input', function(e){
 });
 
 var lock = false;
+var changeName = "";
 
 function login(){
 	if (!lock){
@@ -60,10 +50,10 @@ function login(){
 		var post = $.post("/inventory/view/login", {uid: $('#login-pop-up input[name="uid"]').val()});
 		post.done(function(data, textStatus, jqXHR){
 			if (jqXHR.responseText !== "false"){
+            	changeName = jqXHR.responseText;
 				$("#login-response").html(jqXHR.responseText + " <img src='/assets/images/accept.png'>");
 				$("#login-response-name").html("ukladám zmeny <img src='/assets/images/loading.gif'>");
-				$("#items-form").submit();
-				$('#login-pop-up input[type="submit"]').prop('disabled', true);
+                edit();
 				lock = false;
 			}
 			else{
@@ -103,3 +93,68 @@ function search(){
 		$("#body-loading").hide();
 	});
 }
+
+function edit(){
+
+    if (!inv){
+        resetLoginForm();
+        return false;
+    }
+
+    var data = [];
+    for (var i = 0; i < inv.items.length; i++){
+        data.push({item_id: inv.items[i].n, amount: inv.items[i].getAmount()});
+    }
+
+    var post = $.post("/inventory/view/edit", {items: data});
+    post.done(function(data, textStatus, jqXHR){
+            if (jqXHR.responseText !== "false"){
+                resetLoginForm();
+                $("#body").html(jqXHR.responseText);
+
+                $(".body").hide();
+                $(".notification").removeClass("active");
+                $(".body:eq(0)").show();
+                $('#login-pop-up').hide();
+
+				$('input[name="category[]"]:checked').each(function(){
+					$(this).attr('checked', false);
+				});
+				$('input[name="search"]').val("")
+
+                var store_change = $('#storage_change');
+                store_change.html("Veci zmenil/a " + changeName);
+                store_change.show();
+                store_change.removeClass('hide');
+                //hide storage change
+                setTimeout(function(){
+                        if (store_change){
+                                store_change.addClass("hide");
+                        }
+                }, 4000);
+                //kill storage change
+                setTimeout(function(){
+                        if (store_change){
+                                store_change.hide();
+                        }
+                }, 5000);
+
+                changeName = "";
+
+                inv.removeItemAll();
+            }
+            else{
+                resetLoginForm()
+            }
+    });
+    post.fail(function(jqXHR, textStatus, errorThrown){
+            $("#login-response").html("chyba komunikácie <img src='/assets/images/delete.png'>");
+            $("#login-response-name").html("");
+    });
+}
+
+function resetLoginForm(){
+    $("#login-response").html("");
+    $("#login-response-name").html("");
+    $('#login-pop-up input[name="uid"]').val("");
+};

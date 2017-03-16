@@ -2,13 +2,13 @@ Item = function(id){
 	this.id = id;
 	this.formId = 'form-' + this.id;
 	this.n = id.substring(4);
-	this.amount = 0;
+	this.amount = 1;
 	this.state = -1;
 	this.obj = $("#" + id);
 	this.title = $(this.obj).find('.body-item-title').html();
 	this.location = $(this.obj).find('.body-item-location').html();
 	this.description = $(this.obj).find('.body-item-description').html();
-	
+
 	this.setAmount = function(a){
 		if (a != this.amount){
 			if (a == ""){
@@ -24,16 +24,20 @@ Item = function(id){
 				}
 			}
 			$('#' + this.formId).find('input[name="amount_show[]"]').val(a);
-			$('#' + this.formId).find('input[name="amount[]"]').val(this.amount * this.state);
+			$('#' + this.formId).find('input[name="amount[]"]').val(this.getAmount());
 		}
 	};
-	
+
+        this.getAmount = function(){
+            return this.amount * this.state;
+        };
+
 	this.hideById = function(){
 		if ($("#" + this.id) != undefined){
 			$("#" + this.id).addClass("added");
 		}
 	};
-	
+
 	this.getStateLabel = function(){
 		if (this.state == -1){
 			return "beriem";
@@ -53,7 +57,7 @@ Item = function(id){
 		$('#' + this.formId).find('.form-item-state').addClass(this.getStateClass());
 		this.setAmount(this.amount);
 	};
-	
+
 	this.createForm = function(parent){
 		ret = '<div id="' + this.formId + '" class="form-item">' +
 					'<div class="form-item-actions">' +
@@ -75,7 +79,7 @@ Item = function(id){
 						'<div class="form-item-title">' + this.title + '</div>' +
 						'<div class="form-item-state ' + this.getStateClass() + '"><div class="form-item-state-type out">beriem</div><div class="form-item-state-type in">vraciam</div></div>' +
 						'<div class="form-item-description">' + this.description + '</div>' +
-					'</div>' + 
+					'</div>' +
 				'</div>';
 		if (parent == null){
 			return ret;
@@ -88,7 +92,7 @@ Item = function(id){
 
 Inventory = function(){
 	this.items = [];
-	
+
 	this.getById = function(id){
 		for (var i = 0; i < this.items.length; i++){
 			if (this.items[i].id == id){
@@ -105,7 +109,7 @@ Inventory = function(){
 		}
 		return -1;
 	};
-	
+
 	this.addItem = function(obj){
 		var id = $(obj).attr('id');
 		if (id.indexOf("warning") > -1){
@@ -133,13 +137,22 @@ Inventory = function(){
 		}
 		this.setNotification();
 	};
+	this.removeItemAll = function(){
+		for (var i = 0; i < inv.items.length; i++){
+			var obj = this.items[i];
+			$("#" + obj.formId).remove();
+			$("#" + obj.id).removeClass("added");
+		}
+		this.items.splice(0, this.items.length);
+		this.setNotification();
+	};
 	this.changeState = function(id){
 		var obj = this.getById(id);
 		if (obj != null){
 			obj.changeState();
 		}
 	};
-	
+
 	this.setNotification = function(){
 		if (this.items.length > 0){
 			$("#download-counter").show();
@@ -151,7 +164,7 @@ Inventory = function(){
 		}
 		$("#download-counter").html(this.items.length);
 	};
-	
+
 	this.setAmount = function(id){
 		var obj = this.getById(id);
 		if (obj != null){
@@ -177,7 +190,7 @@ Inventory = function(){
 			obj.setAmount(obj.amount - 1);
 		}
 	};
-	
+
 	this.hideAll = function(){
 		for (var i = 0; i < this.items.length; i++){
 			this.items[i].hideById();
